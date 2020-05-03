@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Celebrity Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+  function send_search() {{
+    if (document.getElementById('Search').value.length > 0) {{
+        window.location = "/display/" + document.getElementById('Search').value;
+    }} else {{
+        window.location = "/display";
+    }}
+  }}
+
+  function clickedFirst() {{
+    window.location = '/edit/' + document.getElementById('fID').innerHTML;
+  }}
+
+    function clickedSecond() {{
+    window.location = '/edit/' + document.getElementById('sID').innerHTML;
+  }}
+
+   function clickedThird() {{
+    window.location = '/edit/' + document.getElementById('tID').innerHTML;
+  }}
+</script>
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Dashboard</a></li>
+      <li><a href="/display">Add/View Celebrities</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+  <div class="page-header">
+    <h1>  Celebrities</h1>
+  </div>
+
+<div class="row">
+  <div class="col-sm-2"><div align="center" onclick="clickedFirst()" class="alert alert-info">
+  <strong>{} {}</strong>   <p style="display: none;" id="fID" class="text-muted">{}</p> </div></div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-2"><div align="center" onclick="clickedSecond()" class="alert alert-info">
+  <strong>{} {}</strong> <p style="display: none;" id="sID" class="text-muted">{}</p> </div></div>
+    <div class="col-sm-2"></div>
+  <div class="col-sm-2"><div align="center" onclick="clickedThird()" class="alert alert-info">
+  <strong>{} {}</strong> <p style="display: none;"id="tID" class="text-muted">{}</p> </div></div>
+    <div class="col-sm-2"></div>
+</div>
+  <br>
+  <br>
+  <br><input type="text" id="Search" placeholder="Search">
+<button type="button" onclick="send_search()" class="btn btn-primary">Search</button>
+
+</body>
+</html>

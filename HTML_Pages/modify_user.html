@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Modify {}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><a href="/">Dashboard</a></li>
+      <li><a href="/display">Add/View Celebrities</a></li>
+    </ul>
+  </div>
+</nav>
+<script>
+  function deleteEle() {{
+    const Http = new XMLHttpRequest();
+        const url = '/update';
+        Http.open("DELETE", url);
+        var form = new FormData();
+        form.append('id', document.getElementById('id').value);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = "/display";
+            }}
+        }}
+    }}
+
+  function submit_changes() {{
+        const Http = new XMLHttpRequest();
+        const url = '/update';
+        Http.open("POST", url);
+        var form = new FormData();
+        form.append('firstname', document.getElementById('fn').value);
+        form.append('lastname', document.getElementById('ls').value);
+        form.append('gender', document.getElementById('g').value);
+        form.append('age', document.getElementById('a').value);
+        form.append('height', document.getElementById('h').value);
+        form.append('weight', document.getElementById('w').value);
+        form.append('id', document.getElementById('id').value);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+</script>
+
+  <div class="page-header">
+    <h3>Modify {}</h3>
+  </div>
+<div class="col-sm-3">
+<table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>First Name</td>
+        <td><input type="text" id="fn" value="{}"></td>
+      </tr>
+      <tr>
+        <td>Last Name</td>
+        <td><input type="text" id="ls" value="{}"></td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td><select id="g">
+            <option {} value="Male">Male</option>
+            <option {} value="Female">Female</option>
+            <option {} value="Unknown">Unknown</option>
+        </select></td>
+      </tr>
+    <tr>
+        <td>Age</td>
+        <td><input type="number" id="a" value="{}"></td>
+      </tr>
+    <tr>
+        <td>Height</td>
+        <td><input type="number" id="h" value="{}"></td>
+      </tr>
+    <tr>
+        <td>Weight</td>
+        <td><input type="number" id="w" value="{}"></td>
+      </tr>
+    <tr>
+        <td>ID</td>
+        <td><input type="text" id="id" disabled value="{}"></td>
+      </tr>
+    </tbody>
+</table>
+<button type="button" onclick="submit_changes()" class="btn btn-primary">Save Changes</button> <br><br>
+    <button type="button" onclick="window.location = '/display';" class="btn btn-success">Show All Data</button>
+    <br><br><button type='button'onclick='deleteEle()' class='btn btn-danger'>Delete Entry</button>
+</div>
+</body>
+</html>

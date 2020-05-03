@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Search Results</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<script>
+  function setEdit(id) {{
+    window.location = "/edit/" + id;
+  }}
+
+  function submit_new() {{
+        const Http = new XMLHttpRequest();
+        const url = '/update';
+        Http.open("PUT", url);
+        var form = new FormData();
+        form.append('firstname', document.getElementById('fn').value);
+        form.append('lastname', document.getElementById('ls').value);
+        form.append('gender', document.getElementById('g').value);
+        form.append('age', document.getElementById('a').value);
+        form.append('height', document.getElementById('h').value);
+        form.append('weight', document.getElementById('w').value);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+</script>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><a href="/">Dashboard</a></li>
+      <li class="active"><a href="/display">Add/View Celebrities</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="col-sm-6">
+  <h3>Results</h3>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Height (Inches)</th>
+          <th>Weight (Lbs)</th>
+          <th>Gender</th>
+          <th>Age</th>
+        <th>ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      {}
+    </tbody>
+  </table>
+</div>
+<div class="col-sm-3">
+  <h3>Add new Celebrity</h3>
+<table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>First Name</td>
+        <td><input type="text" id="fn" value=""></td>
+      </tr>
+      <tr>
+        <td>Last Name</td>
+        <td><input type="text" id="ls" value=""></td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td><select id="g">
+            <option selected="selected" disabled value="Select Option">Select Option</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Unknown">Unknown</option>
+        </select></td>
+      </tr>
+    <tr>
+        <td>Age</td>
+        <td><input type="number" id="a" value=""></td>
+      </tr>
+    <tr>
+        <td>Height (Inches)</td>
+        <td><input type="number" id="h" value=""></td>
+      </tr>
+    <tr>
+        <td>Weight (Lbs)</td>
+        <td><input type="number" id="w" value=""></td>
+      </tr>
+    </tbody>
+</table>
+<button type="button" onclick="submit_new()" class="btn btn-primary">Add Celebrity</button>
+</div>
+</body>
+</html>
