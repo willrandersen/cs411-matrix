@@ -1,0 +1,82 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="../static/register.css" rel="stylesheet" id="register">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="../scripts_folders/register.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<script>
+    function register() {{
+        const Http = new XMLHttpRequest();
+        const url = '/login';  
+        Http.open("POST", url);
+        var form = new FormData();
+        form.append('first_name', document.getElementById('loginID').value);
+        form.append('last_name', document.getElementById('password').value);
+        form.append('loginID', document.getElementById('loginID').value);
+        form.append('password', document.getElementById('password').value);
+		form.append('AccountName', document.getElementById('AccountName').value);
+		form.append('Email', document.getElementById('Email').value);
+		form.append('Age', document.getElementById('password').Age);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+</script>
+
+<div class="container">
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+		<form role="form">
+			<h2>Please Sign Up <small>It's free and always will be.</small></h2>
+			<hr class="colorgraph">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<div class="form-group">
+                        <input type="text" name="first_name" id="first_name" class="form-control input-lg" placeholder="First Name" tabindex="1">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<div class="form-group">
+						<input type="text" name="last_name" id="last_name" class="form-control input-lg" placeholder="Last Name" tabindex="2">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" name="loginID" id="loginID" class="form-control input-lg" placeholder="Login ID" tabindex="3">
+			</div>
+			<div class="form-group">
+				<input type="text" name="AccountName" id="AccountName" class="form-control input-lg" placeholder="Account Name" tabindex="4">
+			</div>
+			<div class="form-group">
+				<input type="text" name="Age" id="Age" class="form-control input-lg" placeholder="Age" tabindex="5">
+			</div>
+			<div class="form-group">
+				<input type="text" name="Email" id="Email" class="form-control input-lg" placeholder="E-mail" tabindex="6">
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<div class="form-group">
+						<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="7">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<div class="form-group">
+						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirm Password" tabindex="6">
+					</div>
+				</div>
+            </div>
+           
+			<hr class="colorgraph">
+			<div class="row">
+				<div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7" onclick=""></div>
+				<div class="col-xs-12 col-md-6"><a href="/" class="btn btn-success btn-block btn-lg">Sign In</a></div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
