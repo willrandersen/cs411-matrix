@@ -12,8 +12,12 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-      <li><a href="/">Dashboard</a></li>
+      <li><a href="/dash">Dashboard</a></li>
       <li><a href="/display">Add/View Celebrities</a></li>
+      <li><a href="/search">Search</a></li>
+      <li><a href="/profile">My Profile</a></li>
+      <li><a href="/community">Community</a></li>
+      <li><a href="/" style="position: relative; left:900px">Logout</a></li>
     </ul>
   </div>
 </nav>
@@ -36,6 +40,26 @@
         const Http = new XMLHttpRequest();
         const url = '/update';
         Http.open("POST", url);
+        var form = new FormData();
+        form.append('firstname', document.getElementById('fn').value);
+        form.append('lastname', document.getElementById('ls').value);
+        form.append('gender', document.getElementById('g').value);
+        form.append('age', document.getElementById('a').value);
+        form.append('height', document.getElementById('h').value);
+        form.append('weight', document.getElementById('w').value);
+        form.append('id', document.getElementById('id').value);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+
+  function joincommunity() {{
+        const Http = new XMLHttpRequest();
+        const url = '/community';
+        Http.open("PUT", url);
         var form = new FormData();
         form.append('firstname', document.getElementById('fn').value);
         form.append('lastname', document.getElementById('ls').value);
@@ -96,6 +120,8 @@
 <button type="button" onclick="submit_changes()" class="btn btn-primary">Save Changes</button> <br><br>
     <button type="button" onclick="window.location = '/display';" class="btn btn-success">Show All Data</button>
     <br><br><button type='button'onclick='deleteEle()' class='btn btn-danger'>Delete Entry</button>
-</div>
+    <br>
+    <br>
+    <button type='button'onclick='joincommunity()' class='btn'>Join Community</button> </div>
 </body>
 </html>

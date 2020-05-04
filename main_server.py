@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://hccxcbaxkgmbjg:3fd3e1d41f6d2
 app.config["MONGO_URI"] = "mongodb://heroku_bm1s8r3b:ggka37atqhdqaqlv3j7658434p@ds249428.mlab.com:49428/heroku_bm1s8r3b"
 db = SQLAlchemy(app)
 
-@app.route('/', methods=['GET'])
+@app.route('/dash', methods=['GET'])
 def load_main():
     file_in = open('HTML_Pages/main_dash.html')
     html_template = file_in.read()
@@ -28,7 +28,6 @@ def load_main():
     resultset = []
     for row in res:
         resultset.append(dict(row))
-
     return html_template.format(resultset[0]["firstname"], resultset[0]["lastname"], resultset[0]["id"], resultset[1]["firstname"], resultset[1]["lastname"], resultset[1]["id"], resultset[2]["firstname"], resultset[2]["lastname"], resultset[2]["id"])
 
 @app.route('/update', methods=['DELETE'])
@@ -115,6 +114,28 @@ def viewPage(search):
     table_f = buildTableBody(resultset)
     return html_template.format(table_f)
 
+@app.route('/display/<gender>/<age_gte>/<age_lte>/<height_gte>/<height_lte>/<weight_gte>/<weight_lte>')
+def viewPage_detailed(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte):
+    template = open("SQL_commands/query.sql")
+    query = template.read().format(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte)
+    try:
+        res = db.engine.execute(query)
+    except:
+        return "Failed"
+    resultset = []
+    for row in res:
+        resultset.append(dict(row))
+
+    file_in = open('HTML_Pages/add_and_list.html')
+    html_template = file_in.read()
+    file_in.close()
+
+    table_f = buildTableBody(resultset)
+    return html_template.format(table_f)
+
+
+
+
 @app.route('/edit/<id>')
 def editPage(id):
     template = open("SQL_commands/load_from_id.sql")
@@ -142,5 +163,36 @@ def editPage(id):
     full_name = curr_celeb["firstname"] + " " + curr_celeb["lastname"]
     return html_template.format(full_name, full_name, curr_celeb["firstname"], curr_celeb["lastname"], a[0], a[1], a[2],curr_celeb["age"], curr_celeb["height"], curr_celeb["weight"], curr_celeb["id"])
 
+@app.route('/')
+def login():
+    file_in = open('HTML_Pages/login.html')
+    html_template = file_in.read()
+    file_in.close()
+    return html_template
+@app.route('/register')
+def register():
+    file_in = open('HTML_Pages/register.html')
+    html_template = file_in.read()
+    file_in.close()
+    return html_template 
+
+@app.route('/search', methods=['GET'])
+def searchcelebrity():
+    file_in = open('HTML_Pages/enter_celebrity_group.html')
+    html_template = file_in.read()
+    file_in.close()    
+    return html_template
+@app.route('/profile', methods=['GET'])
+def myprofile():
+    file_in = open('HTML_Pages/myprofile.html')
+    html_template = file_in.read()
+    file_in.close()    
+    return html_template
+@app.route('/community', methods=['GET'])
+def community():
+    file_in = open('HTML_Pages/community.html')
+    html_template = file_in.read()
+    file_in.close()    
+    return html_template
 if __name__ == '__main__':
     app.run(debug=True)
