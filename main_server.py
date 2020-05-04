@@ -1,11 +1,13 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_pymongo import PyMongo
 from flask_heroku import Heroku
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://hccxcbaxkgmbjg:3fd3e1d41f6d20981c7ae46c61d256393dfdf67720c3f825066b2760e89856be@ec2-52-86-73-86.compute-1.amazonaws.com:5432/d7jcothqvc546b"
+app.config["MONGO_URI"] = "mongodb://heroku_bm1s8r3b:ggka37atqhdqaqlv3j7658434p@ds249428.mlab.com:49428/heroku_bm1s8r3b"
 db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET'])
