@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../static/login.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <script>
+    function login() {{
+        const Http = new XMLHttpRequest();
+        const url = '/login';  
+        Http.open("PUT", url);
+        var form = new FormData();
+        form.append('loginID', document.getElementById('loginID').value);
+        form.append('password', document.getElementById('password').value);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+</script>
+
+
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <!-- Tabs Titles -->
+      
+          <!-- Icon -->
+          <div class="fadeIn first">
+            <img src="../static/logo_matrix.png" id="icon" alt="User Icon" style="margin-top: 20px;"/>
+          </div>
+      <br>
+          <!-- Login Form -->
+          <form>
+            <input type="text" id="loginID" class="fadeIn second" name="loginID" placeholder="Login ID" style="width: 340px;">
+            <input type="text" id="password" class="fadeIn third" name="login" placeholder="Password" style="width: 340px;">
+            <input type="submit" class="fadeIn fourth" value="Log In" style='margin-top: 20px;' onclick="login()">
+          </form>
+          <div id="formFooter">
+            <a class="underlineHover" href="/register">Sign up</a>
+          </div>
+      
+        </div>
+      </div>
+</body>
+</html>

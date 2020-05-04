@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://hccxcbaxkgmbjg:3fd3e1d41f6d20981c7ae46c61d256393dfdf67720c3f825066b2760e89856be@ec2-52-86-73-86.compute-1.amazonaws.com:5432/d7jcothqvc546b"
 db = SQLAlchemy(app)
 
-@app.route('/', methods=['GET'])
+@app.route('/dash', methods=['GET'])
 def load_main():
     file_in = open('HTML_Pages/main_dash.html')
     html_template = file_in.read()
@@ -26,7 +26,6 @@ def load_main():
     resultset = []
     for row in res:
         resultset.append(dict(row))
-
     return html_template.format(resultset[0]["firstname"], resultset[0]["lastname"], resultset[0]["id"], resultset[1]["firstname"], resultset[1]["lastname"], resultset[1]["id"], resultset[2]["firstname"], resultset[2]["lastname"], resultset[2]["id"])
 
 @app.route('/update', methods=['DELETE'])
@@ -140,5 +139,17 @@ def editPage(id):
     full_name = curr_celeb["firstname"] + " " + curr_celeb["lastname"]
     return html_template.format(full_name, full_name, curr_celeb["firstname"], curr_celeb["lastname"], a[0], a[1], a[2],curr_celeb["age"], curr_celeb["height"], curr_celeb["weight"], curr_celeb["id"])
 
+@app.route('/')
+def login():
+    file_in = open('HTML_Pages/login.html')
+    html_template = file_in.read()
+    file_in.close()
+    return html_template
+@app.route('/register')
+def register():
+    file_in = open('HTML_Pages/register.html')
+    html_template = file_in.read()
+    file_in.close()
+    return html_template 
 if __name__ == '__main__':
     app.run(debug=True)
