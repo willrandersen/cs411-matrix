@@ -15,7 +15,9 @@
         form.append('last_name', document.getElementById('password').value);
         form.append('loginID', document.getElementById('loginID').value);
         form.append('password', document.getElementById('password').value);
-        form.append('AccountName', document.getElementById('AccountName').value);
+		form.append('AccountName', document.getElementById('AccountName').value);
+		form.append('Email', document.getElementById('Email').value);
+		form.append('Age', document.getElementById('password').Age);
         Http.send(form);
         Http.onreadystatechange = function () {{
             if (Http.readyState == 4) {{
@@ -50,10 +52,16 @@
 			<div class="form-group">
 				<input type="text" name="AccountName" id="AccountName" class="form-control input-lg" placeholder="Account Name" tabindex="4">
 			</div>
+			<div class="form-group">
+				<input type="text" name="Age" id="Age" class="form-control input-lg" placeholder="Age" tabindex="5">
+			</div>
+			<div class="form-group">
+				<input type="text" name="Email" id="Email" class="form-control input-lg" placeholder="E-mail" tabindex="6">
+			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<div class="form-group">
-						<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="5">
+						<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="7">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">
@@ -62,7 +70,7 @@
 					</div>
 				</div>
             </div>
-
+           
 			<hr class="colorgraph">
 			<div class="row">
 				<div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7" onclick=""></div>

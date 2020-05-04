@@ -1,14 +1,33 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<script type="text/javascript">
+ function searchcelebrities() {{
+        window.location = "/display/" + 
+        document.getElementById('g').value + "/" 
+        + document.getElementById('a_gte').value + "/" + document.getElementById('a_lte').value + "/" + 
+        document.getElementById('h_gte').value + "/" + document.getElementById('h_lte').value + "/"+ 
+        document.getElementById('w_gte').value+ "/" + document.getElementById('w_lte').value;
+  }}
+</script>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><a href="/dash">Dashboard</a></li>
+      <li ><a href="/display">Add/View Celebrities</a></li>
+      <li class="active"><a href="/search">Search</a></li>
+      <li><a href="/profile">My Profile</a></li>
+      <li><a href="/community">Community</a></li>
+      <li><a href="/" style="position: relative; left:900px">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
 <h3>Join Celebrity's Fans Community</h3>
 <table class="table table-bordered">
     <tbody>
-      <tr>
-        <td>Sport</td>
-        <td><input type="text" id="fn" value=""></td>
-      </tr>
-      <tr>
-        <td>Drink</td>
-        <td><input type="text" id="ls" value=""></td>
-      </tr>
       <tr>
         <td>Gender</td>
         <td><select id="g">
@@ -19,17 +38,30 @@
         </select></td>
       </tr>
     <tr>
-        <td>Age</td>
-        <td><input type="number" id="a" value=""></td>
+        <td>Age Greater Than</td>
+        <td><input type="number" id="a_gte" value=""></td>
       </tr>
     <tr>
-        <td>Height (Inches)</td>
-        <td><input type="number" id="h" value=""></td>
+      <tr>
+        <td>Age Less Than</td>
+        <td><input type="number" id="a_lte" value=""></td>
       </tr>
     <tr>
-        <td>Weight (Lbs)</td>
-        <td><input type="number" id="w" value=""></td>
+        <td>Height Greater Than  (Inches)</td>
+        <td><input type="number" id="h_gte" value=""></td>
+      </tr>
+      <tr>
+        <td>Height Less Than (Inches)</td>
+        <td><input type="number" id="h_lte" value=""></td>
+      </tr>
+    <tr>
+        <td>Weight Greater Than (Lbs)</td>
+        <td><input type="number" id="w_gte" value=""></td>
+      </tr>
+      <tr>
+        <td>Weight Less Than(Lbs)</td>
+        <td><input type="number" id="w_lte" value=""></td>
       </tr>
     </tbody>
 </table>
-<button type="button" onclick="searchcelebrities()" class="btn btn-primary">Join</button>
+<button type="button" onclick="searchcelebrities()" class="btn btn-primary">Search</button>

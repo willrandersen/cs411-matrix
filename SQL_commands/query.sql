@@ -1,3 +1,3 @@
 SELECT * FROM celebrities
-WHERE Sport = '{}' AND Drink = '{}' 
+WHERE gender = '{}' AND age >= '{}' AND age <= '{}' AND height >= '{}' AND height <= '{}'  AND weight >= '{}' AND weight <= '{}'
 ORDER BY id;

@@ -112,6 +112,28 @@ def viewPage(search):
     table_f = buildTableBody(resultset)
     return html_template.format(table_f)
 
+@app.route('/display/<gender>/<age_gte>/<age_lte>/<height_gte>/<height_lte>/<weight_gte>/<weight_lte>')
+def viewPage_detailed(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte):
+    template = open("SQL_commands/query.sql")
+    query = template.read().format(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte)
+    try:
+        res = db.engine.execute(query)
+    except:
+        return "Failed"
+    resultset = []
+    for row in res:
+        resultset.append(dict(row))
+
+    file_in = open('HTML_Pages/add_and_list.html')
+    html_template = file_in.read()
+    file_in.close()
+
+    table_f = buildTableBody(resultset)
+    return html_template.format(table_f)
+
+
+
+
 @app.route('/edit/<id>')
 def editPage(id):
     template = open("SQL_commands/load_from_id.sql")
@@ -151,5 +173,24 @@ def register():
     html_template = file_in.read()
     file_in.close()
     return html_template 
+
+@app.route('/search', methods=['GET'])
+def searchcelebrity():
+    file_in = open('HTML_Pages/enter_celebrity_group.html')
+    html_template = file_in.read()
+    file_in.close()    
+    return html_template
+@app.route('/profile', methods=['GET'])
+def myprofile():
+    file_in = open('HTML_Pages/myprofile.html')
+    html_template = file_in.read()
+    file_in.close()    
+    return html_template
+@app.route('/community', methods=['GET'])
+def community():
+    file_in = open('HTML_Pages/community.html')
+    html_template = file_in.read()
+    file_in.close()    
+    return html_template
 if __name__ == '__main__':
     app.run(debug=True)
