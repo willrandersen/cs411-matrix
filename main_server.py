@@ -90,6 +90,17 @@ def buildTableBody(l):
         output += "</tr>\n"
     return output
 
+def buildfriendlist(l):
+    output = ""
+    for each_row in l:
+        output += "<tr>"
+        output += "<td>" + each_row["AccountName"] + "</td>"
+        output += "<td>" + each_row["Email"] + "</td>"
+        output += "<td>" + str(each_row["gender"]) + "</td>"
+        output += "<td>" + str(each_row["age"]) + "</td>"
+        output += "<td>" + "<button click='deletefriend()' class='btn-danger'>Delete</button>" + "</td>"
+        output += "</tr>\n"
+    return output
 
 
 
@@ -192,5 +203,15 @@ def community():
     html_template = file_in.read()
     file_in.close()    
     return html_template
+@app.route('/community', methods=['POST'])
+def joincommunity():
+    template = open("SQL_commands/joincommunity.sql")
+    query = template.read().format(request.form['id'])
+    template.close()
+    try:
+        res = db.engine.execute(query)
+    except:
+        return "Failed", 400
+    return "Success"
 if __name__ == '__main__':
     app.run(debug=True)

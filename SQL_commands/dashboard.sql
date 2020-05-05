@@ -1,1 +1,3 @@
-SELECT * FROM celebrities LIMIT 3;
+SELECT * FROM celebrities 
+ORDER BY numberoffans DESC
+LIMIT 3;
