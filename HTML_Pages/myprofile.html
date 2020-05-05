@@ -9,6 +9,36 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<script>
+  function invitation_response( user, should_add) {{
+        const Http = new XMLHttpRequest();
+        const url = '/friendship';
+        Http.open("POST", url);
+        var form = new FormData();
+        form.append('add', should_add);
+        form.append('new_friend', user);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+
+    function invitation_send() {{
+        const Http = new XMLHttpRequest();
+        const url = '/friendship';
+        Http.open("PUT", url);
+        var form = new FormData();
+        form.append('new_friend', document.getElementById('added_user_input').value);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+  </script>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
@@ -27,23 +57,40 @@
 <label>Last Name: </label> <span>{}</span><br><br>
 <label>Account Name: </label> <span>{}</span><br><br>
 <label>Community: </label><span>{}</span><br><br>
-<img src="../static/profile_icon.png" style="position: relative; left:180px;bottom: 230px;height: 40px;width: 40px;">
-</div>
+    <img src="../static/profile_icon.png" style="position: relative; left:180px;bottom: 230px;height: 40px;width: 40px;"></div>
 <div class="col-sm-4" style="position:relative; left:800px;bottom:300px">
     <h3>Friend List</h3>
   <table class="table table-hover">
       <thead>
         <tr>
         <th>Account Name</th>
-        <th>E-mail</th>
-        <th>Gender</th>
+        <th>First Name</th>
+        <th>Last name</th>
         <th>Age</th>
+            <th>Login ID</th>
         </tr>
       </thead>
       <tbody>
         {}
       </tbody>
     </table>
+
+  <h3>Friendship Invitations</h3>
+  <table class="table table-hover">
+      <thead>
+        <tr>
+        <th>Login ID</th>
+          <th>Accept</th>
+        <th>Decline</th>
+        </tr>
+      </thead>
+      <tbody>
+        {}
+      </tbody>
+    </table>
+    <label>Add Friend by Login ID</label>
+        <input type="text" id="added_user_input" value="">
+    <button type="button" onclick="invitation_send()" class="btn btn-primary">Send Friend Request</button></div>
   </div>
 </body>
 

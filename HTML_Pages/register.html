@@ -2,26 +2,26 @@
 <link href="../static/register.css" rel="stylesheet" id="register">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="../scripts_folders/register.js"></script>
+<script src="../static/register.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
 <script>
     function register() {{
         const Http = new XMLHttpRequest();
-        const url = '/login';  
-        Http.open("POST", url);
+        const url = '/dash';
+        Http.open("PUT", url);
         var form = new FormData();
-        form.append('first_name', document.getElementById('loginID').value);
-        form.append('last_name', document.getElementById('password').value);
+        form.append('first_name', document.getElementById('first_name').value);
+        form.append('last_name', document.getElementById('last_name').value);
         form.append('loginID', document.getElementById('loginID').value);
         form.append('password', document.getElementById('password').value);
 		form.append('AccountName', document.getElementById('AccountName').value);
 		form.append('Email', document.getElementById('Email').value);
-		form.append('Age', document.getElementById('password').Age);
+		form.append('Age', document.getElementById('Age').value);
         Http.send(form);
         Http.onreadystatechange = function () {{
             if (Http.readyState == 4) {{
-              window.location = window.location;
+              window.location = "/dash"
             }}
         }}
   }}
@@ -31,7 +31,6 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-		<form role="form">
 			<h2>Please Sign Up <small>It's free and always will be.</small></h2>
 			<hr class="colorgraph">
 			<div class="row">
@@ -73,10 +72,9 @@
            
 			<hr class="colorgraph">
 			<div class="row">
-				<div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7" onclick=""></div>
+				<div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7" onclick="register()"></div>
 				<div class="col-xs-12 col-md-6"><a href="/" class="btn btn-success btn-block btn-lg">Sign In</a></div>
 			</div>
-		</form>
 	</div>
 </div>
 </div>

@@ -61,12 +61,6 @@
         const url = '/community';
         Http.open("PUT", url);
         var form = new FormData();
-        form.append('firstname', document.getElementById('fn').value);
-        form.append('lastname', document.getElementById('ls').value);
-        form.append('gender', document.getElementById('g').value);
-        form.append('age', document.getElementById('a').value);
-        form.append('height', document.getElementById('h').value);
-        form.append('weight', document.getElementById('w').value);
         form.append('id', document.getElementById('id').value);
         Http.send(form);
         Http.onreadystatechange = function () {{
