@@ -265,6 +265,7 @@ def render_friends(user):
         output += "<td>" + each_friend['last_name'] + "</td>"
         output += "<td>" + each_friend['Age'] + "</td>"
         output += "<td>" + each_friend['loginID'] + "</td>"
+        output += "<td>" + "<button onclick='delete_friend(\"" + each_friend['loginID'] + "\")' class='btn-danger'>Remove</button>" + "</td>"
         output += "</tr>\n"
     return output
 
@@ -314,6 +315,16 @@ def add_friend():
     mongo.db.Users.update_one({"loginID" : possible_friend}, {'$push': {'Friends': user_id}})
     return ""
 
+
+@app.route('/deletefriend', methods=['DELETE'])
+def delete_friendship():
+    user_id = user_id_or_False(request.cookies.get('login_cookie'))
+    if user_id == False:
+        return redir_to_login()
+    remove_friend = request.form['new_friend']
+    mongo.db.Users.update_one({"loginID": user_id}, {'$pull': {'Friends': remove_friend}})
+    mongo.db.Users.update_one({"loginID": remove_friend}, {'$pull': {'Friends': user_id}})
+    return "Done"
 
 @app.route('/register')
 def register():
@@ -365,6 +376,18 @@ def logout():
     resp = make_response(redir_to_login())
     resp.set_cookie('login_cookie', "")
     return resp
+
+
+@app.route('/community', methods=['POST'])
+def joincommunity():
+    template = open("SQL_commands/joincommunity.sql")
+    query = template.read().format(request.form['id'])
+    template.close()
+    try:
+        res = db.engine.execute(query)
+    except:
+        return "Failed", 400
+    return "Success"
 
 if __name__ == '__main__':
     app.run(debug=True)

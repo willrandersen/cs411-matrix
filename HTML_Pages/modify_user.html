@@ -59,7 +59,7 @@
   function joincommunity() {{
         const Http = new XMLHttpRequest();
         const url = '/community';
-        Http.open("PUT", url);
+        Http.open("POST", url);
         var form = new FormData();
         form.append('id', document.getElementById('id').value);
         Http.send(form);
@@ -116,6 +116,6 @@
     <br><br><button type='button'onclick='deleteEle()' class='btn btn-danger'>Delete Entry</button>
     <br>
     <br>
-    <button type='button'onclick='joincommunity()' class='btn'>Join Community</button> </div>
+    <button type='button' onclick='joincommunity()' class='btn'>Join Community</button> </div>
 </body>
 </html>

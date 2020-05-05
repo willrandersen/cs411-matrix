@@ -10,12 +10,28 @@
 </head>
 <body>
 <script>
+
   function invitation_response( user, should_add) {{
         const Http = new XMLHttpRequest();
         const url = '/friendship';
         Http.open("POST", url);
         var form = new FormData();
         form.append('add', should_add);
+        form.append('new_friend', user);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+
+
+  function delete_friend(user) {{
+        const Http = new XMLHttpRequest();
+        const url = '/deletefriend';
+        Http.open("DELETE", url);
+        var form = new FormData();
         form.append('new_friend', user);
         Http.send(form);
         Http.onreadystatechange = function () {{
@@ -68,6 +84,7 @@
         <th>Last name</th>
         <th>Age</th>
             <th>Login ID</th>
+            <th>Unfriend</th>
         </tr>
       </thead>
       <tbody>
