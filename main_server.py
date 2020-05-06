@@ -471,7 +471,7 @@ def myprofile():
         return redir_to_login()
     file_in = open('HTML_Pages/myprofile.html')
     user_data = mongo.db.Users.find_one({"loginID" : user_id})
-    html_template = file_in.read().format(user_data['first_name'], user_data['first_name'], user_data['last_name'], user_data['AccountName'], 'communities', render_friends(user_data), render_requests(user_data))
+    html_template = file_in.read().format(user_data['first_name'], user_data['first_name'], user_data['last_name'], user_data['AccountName'], len(user_data['Subscribed']), render_friends(user_data), render_requests(user_data))
     file_in.close()    
     return html_template
 
