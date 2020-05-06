@@ -3,6 +3,35 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
+<script>
+   function invitation_send(input) {{
+        const Http = new XMLHttpRequest();
+        const url = '/friendship';
+        Http.open("PUT", url);
+        var form = new FormData();
+        form.append('new_friend', input);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+
+      function logout() {{
+        const Http = new XMLHttpRequest();
+        const url = '/logout';
+        Http.open("POST", url);
+        var form = new FormData();
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = "/";
+            }}
+        }}
+  }}
+
+</script>
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <ul class="nav navbar-nav">
@@ -11,7 +40,7 @@
         <li ><a href="/search">Search</a></li>
         <li><a href="/profile">My Profile</a></li>
         <li class="active"><a href="/community">Community</a></li>
-        <li><a href="/" style="position: relative; left:900px">Logout</a></li>
+      <li><a onclick="logout()" style="position: relative; left:900px">Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -23,8 +52,9 @@
         <tr>
         <th>Account Name</th>
         <th>E-mail</th>
-        <th>Gender</th>
         <th>Age</th>
+        <th>Celebrity in Common</th>
+        <th>Add Friend</th>
         </tr>
       </thead>
       <tbody>

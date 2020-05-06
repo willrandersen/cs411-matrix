@@ -11,6 +11,20 @@
         document.getElementById('h_gte').value + "/" + document.getElementById('h_lte').value + "/"+ 
         document.getElementById('w_gte').value+ "/" + document.getElementById('w_lte').value;
   }}
+
+
+    function logout() {{
+        const Http = new XMLHttpRequest();
+        const url = '/logout';
+        Http.open("POST", url);
+        var form = new FormData();
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = "/";
+            }}
+        }}
+  }}
 </script>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -20,7 +34,7 @@
       <li class="active"><a href="/search">Search</a></li>
       <li><a href="/profile">My Profile</a></li>
       <li><a href="/community">Community</a></li>
-      <li><a href="/" style="position: relative; left:900px">Logout</a></li>
+      <li><a onclick="logout()" style="position: relative; left:900px">Logout</a></li>
     </ul>
   </div>
 </nav>

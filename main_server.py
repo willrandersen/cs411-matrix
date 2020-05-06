@@ -272,6 +272,69 @@ def render_friends(user):
         output += "</tr>\n"
     return output
 
+def format_comm_req(follow_list):
+    template = open('SQL_commands/load_multiple_ids').read()
+    string_in = ""
+    for each_entry in follow_list:
+        string_in += "id = " + each_entry + " OR "
+    return db.engine.execute(template.format(string_in)[:-4])
+
+def common_str(common_list, info_dict):
+    out = ""
+    for each_common in common_list:
+        out += info_dict[int(each_common)][0] + ' ' + info_dict[int(each_common)][1] + ', '
+    if len(out) > 0:
+        return out[:-2]
+    return out
+
+def render_community(user):
+    follow_list = user['Subscribed']
+    if len(follow_list) == 0:
+        return ""
+    aggregate_list = [{
+       "$match" : {
+           "loginID": {"$ne": user['loginID']}
+       }
+    }, {
+        "$unwind" : "$Subscribed"
+    }, {
+        "$match": {
+            "Subscribed" : {"$in" : follow_list}
+        }
+    }, {
+        "$group" : {
+            "_id" : {
+                "loginID" : "$loginID",
+                "AccountName": "$AccountName",
+                "Email": "$Email",
+                "Age": "$Age",
+            },
+            "common_subscribed" : { "$push" :
+                "$Subscribed"
+            },
+            "common_count" : {"$sum" : 1}
+        }
+    }, {
+        "$sort" : {"common_count" : -1}
+    }]
+    follow_data = mongo.db.Users.aggregate(aggregate_list)
+    id_data = {}
+    res = format_comm_req(follow_list)
+    for each_line in res:
+        id_data[each_line[2]] = each_line
+    print(id_data)
+    output = ""
+    for each_comm in follow_data:
+        output += "<tr>"
+        output += "<td>" + each_comm["_id"]['AccountName'] + "</td>"
+        output += "<td>" + each_comm["_id"]['Email'] + "</td>"
+        output += "<td>" + each_comm["_id"]['Age'] + "</td>"
+        output += "<td>" + common_str(each_comm["common_subscribed"], id_data) + "</td>"
+        output += "<td>" + "<button onclick='invitation_send(\"" + each_comm["_id"]['loginID'] + "\")' class='btn btn-primary'>Invite</button>" + "</td>"
+        output += "</tr>\n"
+    return output
+
+
 def render_requests(user):
     req_list = mongo.db.Invitations.find({'sent_to' : user['loginID']})
     output = ""
@@ -366,7 +429,8 @@ def community():
     if user_id == False:
         return redir_to_login()
     file_in = open('HTML_Pages/community.html')
-    html_template = file_in.read()
+    user_data = mongo.db.Users.find_one({"loginID": user_id})
+    html_template = file_in.read().format(user_data['first_name'] + '\'s', render_community(user_data))
     file_in.close()    
     return html_template
 
@@ -386,15 +450,17 @@ def joincommunity():
     user_id = user_id_or_False(request.cookies.get('login_cookie'))
     if user_id == False:
         return redir_to_login()
-    if not request.form['id'] in mongo.db.Users.find_one({"loginID": user_id})['Subscribed']:
-        template = open("SQL_commands/joincommunity.sql")
-        query = template.read().format(request.form['id'])
-        template.close()
-        try:
-            res = db.engine.execute(query)
-            mongo.db.Users.update_one({"loginID": user_id}, {'$push': {'Subscribed': request.form['id']}})
-        except:
-            return "Failed", 400
+    user_data = mongo.db.Users.find_one({"loginID": user_id})
+    if not request.form['id'] in user_data['Subscribed']:
+        if len(user_data['Subscribed']) < 5:
+            template = open("SQL_commands/joincommunity.sql")
+            query = template.read().format(request.form['id'])
+            template.close()
+            try:
+                res = db.engine.execute(query)
+                mongo.db.Users.update_one({"loginID": user_id}, {'$push': {'Subscribed': request.form['id']}})
+            except:
+                return "Failed", 400
     else:
         template = open("SQL_commands/update_community_fansnum.sql")
         query = template.read().format(request.form['id'])
