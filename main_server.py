@@ -224,8 +224,25 @@ def viewPage_detailed(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,we
     table_f = buildTableBody(resultset)
     return html_template.format(table_f)
 
-
-
+def load_afils(id):
+    template = open("SQL_commands/load_media.sql")
+    query = template.read().format(id)
+    try:
+        res = db.engine.execute(query)
+    except:
+        return "No known Media"
+    resultset = []
+    for row in res:
+        resultset.append(dict(row))
+    if len(resultset) == 0:
+        return "No known Media"
+    output = "<h4>Known Media:</h4><table class='table table-hover'><thead><tr><th>Title</th><th>Type</th></tr></thead><tbody>"
+    for each_row in resultset:
+        output += "<tr>"
+        output += "<td>" + each_row['title'] + "</td>"
+        output += "<td>" + each_row['type'] + "</td>"
+        output += "</tr>\n"
+    return output + "</tbody></table>"
 
 @app.route('/edit/<id>')
 def editPage(id):
@@ -258,7 +275,7 @@ def editPage(id):
     comm_message = "Join Community"
     if id in mongo.db.Users.find_one({"loginID" : user_id})['Subscribed']:
         comm_message = "Leave Community"
-    return html_template.format(full_name, full_name, curr_celeb["firstname"], curr_celeb["lastname"], a[0], a[1], a[2],curr_celeb["age"], curr_celeb["height"], curr_celeb["weight"], curr_celeb["id"], comm_message)
+    return html_template.format(full_name, full_name, curr_celeb["firstname"], curr_celeb["lastname"], a[0], a[1], a[2],curr_celeb["age"], curr_celeb["height"], curr_celeb["weight"], curr_celeb["id"], load_afils(id), comm_message)
 
 
 def render_friends(user):

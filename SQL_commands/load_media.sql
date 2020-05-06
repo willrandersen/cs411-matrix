@@ -1,0 +1,1 @@
+SELECT title, type FROM media WHERE celeb_id = {};
