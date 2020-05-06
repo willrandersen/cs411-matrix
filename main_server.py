@@ -92,7 +92,7 @@ def add_user_then_load():
                            'Age' : request.form['Age'],
                            'Email' : request.form['Email'],
                            'Pass_hash' : hash_object.hexdigest(),
-                           'Friends' : []})
+                           'Friends' : [], 'Subscribed' : []})
     random_cookie = getRandomLetters(150)
     mongo.db.Sessions.insert({'loginID' : request.form['loginID'], 'cookie' : random_cookie})
 
@@ -250,7 +250,10 @@ def editPage(id):
         a = ["", "", "selected='selected'"]
 
     full_name = curr_celeb["firstname"] + " " + curr_celeb["lastname"]
-    return html_template.format(full_name, full_name, curr_celeb["firstname"], curr_celeb["lastname"], a[0], a[1], a[2],curr_celeb["age"], curr_celeb["height"], curr_celeb["weight"], curr_celeb["id"])
+    comm_message = "Join Community"
+    if id in mongo.db.Users.find_one({"loginID" : user_id})['Subscribed']:
+        comm_message = "Leave Community"
+    return html_template.format(full_name, full_name, curr_celeb["firstname"], curr_celeb["lastname"], a[0], a[1], a[2],curr_celeb["age"], curr_celeb["height"], curr_celeb["weight"], curr_celeb["id"], comm_message)
 
 
 def render_friends(user):
@@ -380,13 +383,27 @@ def logout():
 
 @app.route('/community', methods=['POST'])
 def joincommunity():
-    template = open("SQL_commands/joincommunity.sql")
-    query = template.read().format(request.form['id'])
-    template.close()
-    try:
-        res = db.engine.execute(query)
-    except:
-        return "Failed", 400
+    user_id = user_id_or_False(request.cookies.get('login_cookie'))
+    if user_id == False:
+        return redir_to_login()
+    if not request.form['id'] in mongo.db.Users.find_one({"loginID": user_id})['Subscribed']:
+        template = open("SQL_commands/joincommunity.sql")
+        query = template.read().format(request.form['id'])
+        template.close()
+        try:
+            res = db.engine.execute(query)
+            mongo.db.Users.update_one({"loginID": user_id}, {'$push': {'Subscribed': request.form['id']}})
+        except:
+            return "Failed", 400
+    else:
+        template = open("SQL_commands/update_community_fansnum.sql")
+        query = template.read().format(request.form['id'])
+        template.close()
+        try:
+            res = db.engine.execute(query)
+            mongo.db.Users.update_one({"loginID": user_id}, {'$pull': {'Subscribed': request.form['id']}})
+        except:
+            return "Failed", 400
     return "Success"
 
 if __name__ == '__main__':
