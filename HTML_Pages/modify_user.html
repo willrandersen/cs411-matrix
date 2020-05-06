@@ -69,9 +69,24 @@
         }}
   }}
 
+  function delete_media(media_id) {{
+        const Http = new XMLHttpRequest();
+        const url = '/media';
+        Http.open("DELETE", url);
+        var form = new FormData();
+        form.append('media_id', media_id);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+
+
   function submit_new_media() {{
         const Http = new XMLHttpRequest();
-        const url = '/addmedia';
+        const url = '/media';
         Http.open("PUT", url);
         var form = new FormData();
         form.append('id', document.getElementById('id').value);

@@ -1,1 +1,1 @@
-SELECT title, type FROM media WHERE celeb_id = {};
+SELECT media_id, title, type FROM media WHERE celeb_id = {};

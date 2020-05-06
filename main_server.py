@@ -236,16 +236,32 @@ def load_afils(id):
         resultset.append(dict(row))
     if len(resultset) == 0:
         return "No known Media"
-    output = "<h4>Known Media:</h4><table class='table table-hover'><thead><tr><th>Title</th><th>Type</th></tr></thead><tbody>"
+    output = "<h4>Known Media:</h4><table class='table table-hover'><thead><tr><th>Title</th><th>Type</th><th>Delete</th></tr></thead><tbody>"
     for each_row in resultset:
         output += "<tr>"
         output += "<td>" + each_row['title'] + "</td>"
         output += "<td>" + each_row['type'] + "</td>"
+        output += "<td>" + "<button onclick='delete_media(\"" + str(each_row['media_id']) + "\")' class='btn btn-danger'>Remove</button>" + "</td>"
         output += "</tr>\n"
     return output + "</tbody></table>"
 
 
-@app.route('/addmedia', methods=['PUT'])
+@app.route('/media', methods=['DELETE'])
+def deleteMedia():
+    user_id = user_id_or_False(request.cookies.get('login_cookie'))
+    if user_id == False:
+        return redir_to_login()
+    template = open("SQL_commands/delete_media.sql").read()
+    query = template.format(request.form["media_id"])
+    print(query)
+    try:
+        res = db.engine.execute(query)
+    except:
+        return "Failed"
+    return "Success"
+
+
+@app.route('/media', methods=['PUT'])
 def addMedia():
     user_id = user_id_or_False(request.cookies.get('login_cookie'))
     if user_id == False:
@@ -256,9 +272,7 @@ def addMedia():
     try:
         res = db.engine.execute(query)
     except:
-        print("failed insert query")
         return "Failed"
-    print("ran insert query")
     return "Success"
 
 @app.route('/edit/<id>')
