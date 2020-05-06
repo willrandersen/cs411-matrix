@@ -1,0 +1,1 @@
+INSERT INTO media (celeb_id, title, type) VALUES ({}, '{}', '{}');

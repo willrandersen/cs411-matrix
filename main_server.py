@@ -244,6 +244,23 @@ def load_afils(id):
         output += "</tr>\n"
     return output + "</tbody></table>"
 
+
+@app.route('/addmedia', methods=['PUT'])
+def addMedia():
+    user_id = user_id_or_False(request.cookies.get('login_cookie'))
+    if user_id == False:
+        return redir_to_login()
+    template = open("SQL_commands/insert_media.sql").read()
+    query = template.format(request.form["id"], request.form["title"], request.form["type"])
+    print(query)
+    try:
+        res = db.engine.execute(query)
+    except:
+        print("failed insert query")
+        return "Failed"
+    print("ran insert query")
+    return "Success"
+
 @app.route('/edit/<id>')
 def editPage(id):
     user_id = user_id_or_False(request.cookies.get('login_cookie'))

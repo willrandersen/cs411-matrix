@@ -69,6 +69,22 @@
         }}
   }}
 
+  function submit_new_media() {{
+        const Http = new XMLHttpRequest();
+        const url = '/addmedia';
+        Http.open("PUT", url);
+        var form = new FormData();
+        form.append('id', document.getElementById('id').value);
+        form.append('type', document.getElementById('type').value);
+        form.append('title', document.getElementById('title').value);
+        Http.send(form);
+        Http.onreadystatechange = function () {{
+            if (Http.readyState == 4) {{
+              window.location = window.location;
+            }}
+        }}
+  }}
+
   function joincommunity() {{
         const Http = new XMLHttpRequest();
         const url = '/community';
@@ -133,5 +149,22 @@
     <br>
     <br>
     <button type='button' onclick='joincommunity()' class='btn'>{}</button> </div>
+<div class="col-sm-3">
+  <h3>Add new Media</h3>
+<table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>Title</td>
+        <td><input type="text" id="title" value=""></td>
+      </tr>
+      <tr>
+        <td>Type</td>
+        <td><input type="text" id="type" value=""></td>
+      </tr>
+    </tbody>
+</table>
+<button type="button" onclick="submit_new_media()" class="btn btn-primary">Add Media</button>
+</div>
+
 </body>
 </html>
