@@ -197,13 +197,18 @@ def viewPage(search):
     table_f = buildTableBody(resultset)
     return html_template.format(table_f)
 
-@app.route('/display/<gender>/<age_gte>/<age_lte>/<height_gte>/<height_lte>/<weight_gte>/<weight_lte>')
-def viewPage_detailed(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte):
+@app.route('/display/<gender>/<age_gte>/<age_lte>/<height_gte>/<height_lte>/<weight_gte>/<weight_lte>/<af>')
+def viewPage_detailed(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte, af):
     user_id = user_id_or_False(request.cookies.get('login_cookie'))
     if user_id == False:
         return redir_to_login()
-    template = open("SQL_commands/query.sql")
-    query = template.read().format(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte)
+    if(af == "Default"):
+        template = open("SQL_commands/query.sql")
+        query = template.read().format(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte)
+    else:
+        template = open("SQL_commands/query_join.sql")
+        query = template.read().format(gender,age_gte,age_lte,height_gte,height_lte,weight_gte,weight_lte, af)
+        print(query)
     try:
         res = db.engine.execute(query)
     except:
